@@ -1,0 +1,36 @@
+ name: CI Workflow
+
+# Workflow Trigger
+on:
+  push:
+    branches:
+      - main  # 'main' branch par push hone par yeh workflow chalega
+  pull_request:
+    branches:
+      - main  # Pull request par bhi workflow chalega
+
+# Jobs (Automation tasks)
+jobs:
+  build:
+    runs-on: ubuntu-latest  # Yeh job Ubuntu par chalega
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2  # Code ko checkout karna
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'  # Node.js version specify karna (aap apne project ke hisaab se version change kar sakte hain)
+
+      - name: Install dependencies
+        run: npm install  # Node.js dependencies install karna
+
+      - name: Run tests
+        run: npm test  # Test command run karna
+
+      - name: Build the project
+        run: npm run build  # Build command run karna (agar aapka project build require karta ho)
+
+      - name: Deploy (optional)
+        run: npm run deploy  # Agar aap deployment bhi chahte hain, to yeh step add kar sakte hain
